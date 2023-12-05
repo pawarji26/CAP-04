@@ -1,11 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>massai employee record </title>
+    <style>
+      /* Basic styling for the body and headings */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Styling for the form */
+  form {
+    max-width: 300px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+  }
+  
+  input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #b39b00;
+  }
+  
+  /* Styling for the table */
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  /* Styling for the delete button */
+  button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #c82333;
+  }
+  
+
+    </style>
     
-</body>
+  </head>
+  <body>
+    <h1>Masai Employee Records</h1>
+
+    <div>
+      <form id="employeeForm">
+        <label for="name">Employee Name</label><br />
+        <input id="name" type="text" placeholder="Enter Employee Name" /><br />
+        <label for="employeeID">Employee ID</label><br />
+        <input
+          id="employeeID"
+          type="number"
+          placeholder="Enter Employee ID"
+        /><br />
+        <label for="department">Department </label><br />
+        <select id="department">
+          <option value="">Select Department</option>
+          <option value="Frontend">Frontend</option>
+          <option value="Backend">Backend</option>
+          <option value="Operations">Operations</option>
+          <option value="HR">HR</option>
+          <option value="IA">IA</option>
+        </select><br />
+        <label for="exp">Experience </label><br />
+        <input id="exp" type="number" placeholder="Experience in Years" /><br />
+        <label for="email">Email Address </label><br />
+        <input type="text" id="email" placeholder="Enter Email Address" /><br />
+        <label for="mbl">Mobile Number </label><br />
+        <input id="mbl" type="number" placeholder="Enter Mobile number" /><br />
+        <input type="submit" />
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Employee ID</th>
+            <th>Department</th>
+            <th>Experience in years</th>
+            <th>Email address</th>
+            <th>Mobile Number</th>
+            <th>Role</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="employeeTableBody">
+          <!-- Data will be appended here dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+    
+  </body>
 </html>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Function to calculate role based on experience
+    function getRole(experience) {
+      if (experience > 5) {
+        return "Senior";
+      } else if (experience >= 2 && experience <= 5) {
+        return "Junior";
+      } else {
+        return "Fresher";
+      }
+    }
+  
+    // Form submission event
+    document.getElementById("employeeForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      // Fetch input values
+      const name = document.getElementById("name").value;
+      const employeeID = document.getElementById("employeeID").value;
+      const department = document.getElementById("department").value;
+      const experience = document.getElementById("exp").value;
+      const email = document.getElementById("email").value;
+      const mobile = document.getElementById("mbl").value;
+  
+      // Calculate role based on experience
+      const role = getRole(experience);
+  
+      // Create a new table row
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${employeeID}</td>
+        <td>${department}</td>
+        <td>${experience}</td>
+        <td>${email}</td>
+        <td>${mobile}</td>
+        <td>${role}</td>
+        <td><button onclick="deleteRow(this)">Delete</button></td>
+      `;
+  
+      // Append the new row to the table
+      document.getElementById("employeeTableBody").appendChild(newRow);
+  
+      // Reset the form
+      document.getElementById("employeeForm").reset();
+    });
+  
+    // Function to delete a row
+    window.deleteRow = function (btn) {
+      const row = btn.parentNode.parentNode;
+      row.parentNode.removeChild(row);
+    };
+  });
+  
+</script> 
