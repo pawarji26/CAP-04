@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Simulation Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color:aquamarine;
+            color:black;
+            text-align: center;
+            padding: 1em;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Vehicle Simulation Game</h1>
+    </header>
+
+    <main>
+        <div id="carInfo"></div>
+        <button onclick="accelerateCar()">Accelerate Car</button>
+        <button onclick="brakeCar()">Brake Car</button>
+        <button onclick="refuelCar()">Refuel Car</button>
+
+        <div id="airplaneInfo"></div>
+        <button onclick="accelerateAirplane()">Accelerate Airplane</button>
+        <button onclick="brakeAirplane()">Brake Airplane</button>
+        <button onclick="refuelAirplane()">Refuel Airplane</button>
+        <button onclick="takeOffAirplane()">Take Off Airplane</button>
+    </main>
+
+    <script>
+        // Base Vehicle constructor
+        function Vehicle(brand, model, speed, fuelType) {
+            this.brand = brand;
+            this.model = model;
+            this.speed = speed || 0;
+            this.fuelType = fuelType;
+        }
+
+        // Vehicle prototype methods
+        Vehicle.prototype.accelerate = function () {
+            this.speed += 10;
+            console.log(`${this.brand} ${this.model} is accelerating. Current speed: ${this.speed} km/h`);
+        };
+
+        Vehicle.prototype.brake = function () {
+            this.speed -= 10;
+            console.log(`${this.brand} ${this.model} is braking. Current speed: ${this.speed} km/h`);
+        };
+
+        Vehicle.prototype.refuel = function () {
+            console.log(`${this.brand} ${this.model} is refueling.`);
+        };
+
+        // Car constructor
+        function Car(brand, model, speed, fuelType, numberOfWheels) {
+            Vehicle.call(this, brand, model, speed, fuelType);
+            this.numberOfWheels = numberOfWheels || 4;
+        }
+
+        // Inherit from Vehicle prototype
+        Car.prototype = Object.create(Vehicle.prototype);
+
+        // Car-specific method
+        Car.prototype.honk = function () {
+            console.log(`${this.brand} ${this.model} is honking.`);
+        };
+
+        // Airplane constructor
+        function Airplane(brand, model, speed, fuelType, numberOfEngines, hasLandingGear) {
+            Vehicle.call(this, brand, model, speed, fuelType);
+            this.numberOfEngines = numberOfEngines || 2;
+            this.hasLandingGear = hasLandingGear || true;
+        }
+
+        // Inherit from Vehicle prototype
+        Airplane.prototype = Object.create(Vehicle.prototype);
+
+        // Airplane-specific method
+        Airplane.prototype.takeOff = function () {
+            console.log(`${this.brand} ${this.model} is taking off.`);
+        };
+
+        // Create instances
+        const myCar = new Car('Toyota', 'Camry', 0, 'Petrol', 4);
+        const myAirplane = new Airplane('Boeing', '747', 0, 'Jet', 4, true);
+
+        // Display initial vehicle info
+        document.getElementById('carInfo').innerText = `Car: ${myCar.brand} ${myCar.model} with ${myCar.numberOfWheels} wheels`;
+        document.getElementById('airplaneInfo').innerText = `Airplane: ${myAirplane.brand} ${myAirplane.model} with ${myAirplane.numberOfEngines} engines`;
+
+        // Car methods
+        function accelerateCar() {
+            myCar.accelerate();
+        }
+
+        function brakeCar() {
+            myCar.brake();
+        }
+
+        function refuelCar() {
+            myCar.refuel();
+        }
+
+        function honkCar() {
+            myCar.honk();
+        }
+
+        // Airplane methods
+        function accelerateAirplane() {
+            myAirplane.accelerate();
+        }
+
+        function brakeAirplane() {
+            myAirplane.brake();
+        }
+
+        function refuelAirplane() {
+            myAirplane.refuel();
+        }
+
+        function takeOffAirplane() {
+            myAirplane.takeOff();
+        }
+    </script>
+
+</body>
+</html>
