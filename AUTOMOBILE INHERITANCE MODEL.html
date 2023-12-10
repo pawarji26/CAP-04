@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Four-Wheeler Automobiles</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f8f8;
+    }
+
+    header {
+      background-color:aquamarine;
+      color: black;
+      text-align: center;
+      padding: 1em;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #333;
+      color: white;
+    }
+
+    /* Style for table rows */
+    tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Four-Wheeler Automobiles</h1>
+  </header>
+
+  <main>
+    <table id="automobileTable">
+      <thead>
+        <tr>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Year</th>
+          <th>Fuel Type</th>
+          <th>Engine Capacity (cc)</th>
+          <th>Number of Doors</th>
+        </tr>
+      </thead>
+      <tbody id="automobileBody">
+        <th>Toyota</th>
+        <th>Camry</th>
+        <th>2022</th>
+        <th>Petrol</th>
+        <th>2000</th>
+        <th>4</th>
+       
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Base Automobile prototype using Object.create()
+    const AutomobilePrototype = {
+      init: function (make, model, year, fuelType, engineCapacity) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.fuelType = fuelType;
+        this.engineCapacity = engineCapacity;
+      },
+
+      displayInfo: function () {
+        console.log(`Make: ${this.make}`);
+        console.log(`Model: ${this.model}`);
+        console.log(`Year: ${this.year}`);
+        console.log(`Fuel Type: ${this.fuelType}`);
+        console.log(`Engine Capacity: ${this.engineCapacity} cc`);
+      }
+    };
+
+    // Function to add a row for an automobile to the table
+    function addAutomobileRow(automobile) {
+      const tableBody = document.getElementById('automobileBody');
+
+      // Create a new row
+      const newRow = document.createElement('tr');
+
+      // Populate the cells with automobile data
+      const cells = ['make', 'model', 'year', 'fuelType', 'engineCapacity', 'numDoors'];
+      cells.forEach(property => {
+        const cell = document.createElement('td');
+        cell.textContent = automobile[property];
+        newRow.appendChild(cell);
+      });
+
+      // Append the new row to the table body
+      tableBody.appendChild(newRow);
+    }
+
+    // Create a specific FourWheeler using Object.create()
+    const FourWheeler = Object.create(AutomobilePrototype);
+
+    // Initialize specific properties for FourWheeler
+    FourWheeler.init('Toyota', 'Camry', 2022, 'Petrol', 2000);
+    FourWheeler.numDoors = 4;
+
+    // Display information for FourWheeler
+    FourWheeler.displayInfo();
+
+    // Add a row for FourWheeler to the table
+    addAutomobileRow(FourWheeler);
+
+    // Base Automobile constructor function
+    function Automobile(make, model, year, fuelType, engineCapacity) {
+      this.make = make;
+      this.model = model;
+      this.year = year;
+      this.fuelType = fuelType;
+      this.engineCapacity = engineCapacity;
+    }
+
+    // Method added to the Automobile prototype
+    Automobile.prototype.displayInfo = function () {
+      console.log(`Make: ${this.make}`);
+      console.log(`Model: ${this.model}`);
+      console.log(`Year: ${this.year}`);
+      console.log(`Fuel Type: ${this.fuelType}`);
+      console.log(`Engine Capacity: ${this.engineCapacity} cc`);
+    };
+
+    // Create a specific FourWheeler using the constructor function
+    function FourWheeler(make, model, year, fuelType, engineCapacity, numDoors) {
+      // Call the base constructor to initialize common properties
+      Automobile.call(this, make, model, year, fuelType, engineCapacity);
+      
+      // Initialize specific properties for FourWheeler
+      this.numDoors = numDoors;
+    }
+
+    // Inherit from the Automobile prototype
+    FourWheeler.prototype = Object.create(Automobile.prototype);
+
+    // Display information for FourWheeler created with constructor function
+    const myCar = new FourWheeler('Toyota', 'Camry', 2022, 'Petrol', 2000, 4);
+    myCar.displayInfo();
+
+    // Add a row for myCar to the table
+    addAutomobileRow(myCar);
+  </script>
+</body>
+</html>
